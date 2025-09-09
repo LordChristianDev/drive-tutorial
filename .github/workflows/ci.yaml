@@ -1,0 +1,18 @@
+on: [push]
+
+jobs: 
+  build:
+    steps:
+
+      - name: Install dependencies
+        runs: npm install -g pnpm && pnpm install
+
+      - name: Copy .env.example files
+        shell: bash
+        run: find . -type f -name ".env.example" exec sh -c 'cp "$1" "${1%.example}"' _ {} \;
+
+      - name: Typecheck
+        run: pnpm Typecheck
+
+      - name: Lint
+        run: pnpm lint
