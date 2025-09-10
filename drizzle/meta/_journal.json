@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "singlestore",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "1",
+      "when": 1757483350950,
+      "tag": "0000_rapid_cassandra_nova",
+      "breakpoints": true
+    }
+  ]
+}
