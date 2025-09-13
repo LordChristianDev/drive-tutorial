@@ -1,34 +1,6 @@
 import { Suspense } from "react";
-import { eq } from "drizzle-orm";
-import { db } from "~/server/db";
-
 import DriveContents from "~/app/drive-contents";
-
-import { files_table as filesSchema, folders_table as foldersSchema } from "~/server/db/schema";
-import type { folders_table } from "~/server/db/schema";
-
-async function getAllParents(folderId: number) {
-	let parents: typeof folders_table.$inferSelect[] = [];
-	let currentId: number | null = folderId;
-
-	while (currentId != null) {
-		const folder = await db
-			.select()
-			.from(foldersSchema)
-			.where(eq(foldersSchema.id, currentId));
-
-		if (!folder[0]) {
-			throw new Error("Folder not found!");
-		}
-
-		parents = [folder[0], ...parents];
-
-		// parents.unshift(folder[0]);
-		currentId = folder[0]?.parent;
-	}
-
-	return parents;
-}
+import { getAllParentsForFolder, getFiles, getFolders } from "~/server/db/queries";
 
 export default async function GoogleDriveClone(props: {
 	params: Promise<{ folderId: string }>;
@@ -57,22 +29,10 @@ export default async function GoogleDriveClone(props: {
 }
 
 async function FolderContents({ folderId }: { folderId: number }) {
-	const foldersPromise = await db
-		.select()
-		.from(foldersSchema)
-		.where(eq(foldersSchema.parent, folderId));
-
-	const filesPromise = await db
-		.select()
-		.from(filesSchema)
-		.where(eq(filesSchema.parent, folderId));
-
-	const parentsPromise = getAllParents(folderId);
-
 	const [folders, files, parents] = await Promise.all([
-		foldersPromise,
-		filesPromise,
-		parentsPromise,
+		getFolders(folderId),
+		getFiles(folderId),
+		getAllParentsForFolder(folderId),
 	]);
 
 	return (
