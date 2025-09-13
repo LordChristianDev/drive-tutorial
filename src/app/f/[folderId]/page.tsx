@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import DriveContents from "~/app/drive-contents";
-import { getAllParentsForFolder, getFiles, getFolders } from "~/server/db/queries";
+import { QUERIES } from "~/server/db/queries";
 
 export default async function GoogleDriveClone(props: {
 	params: Promise<{ folderId: string }>;
@@ -30,9 +30,9 @@ export default async function GoogleDriveClone(props: {
 
 async function FolderContents({ folderId }: { folderId: number }) {
 	const [folders, files, parents] = await Promise.all([
-		getFolders(folderId),
-		getFiles(folderId),
-		getAllParentsForFolder(folderId),
+		QUERIES.getFolders(folderId),
+		QUERIES.getFiles(folderId),
+		QUERIES.getAllParentsForFolder(folderId),
 	]);
 
 	return (
