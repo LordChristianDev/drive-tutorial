@@ -1,7 +1,45 @@
-import { int, bigint, text, singlestoreTable } from "drizzle-orm/singlestore-core";
+import "server-only";
 
-export const users = singlestoreTable("users_table", {
-  id: bigint("id", { mode: "bigint" }).primaryKey().autoincrement(),
-  name: text("name"),
-  age: int("age"),
-});
+import {
+  bigint, text, index, float,
+  singlestoreTableCreator
+} from "drizzle-orm/singlestore-core";
+
+/**
+ * This is the schema file where you define your database tables using Drizzle ORM.
+ * 
+ * @see https://www.singlestore.com/blog/singlestore-drizzle-integration/ 
+ * 
+ * for more information
+ */
+
+export const createTable = singlestoreTableCreator(
+  (name) => `drive-tutorial_${name}`
+)
+
+export const files = createTable(
+  "files_table",
+  {
+    id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
+    name: text("name").notNull(),
+    url: text("url").notNull(),
+    size: float("size").notNull(),
+    fileType: text("fileType").notNull(),
+    parent: bigint("parent", { mode: "number", unsigned: true }).notNull(),
+  },
+  (t) => {
+    return [index("parent_index").on(t.parent)];
+  }
+);
+
+export const folders = createTable(
+  "folders_table",
+  {
+    id: bigint("id", { mode: "number", unsigned: true }).primaryKey().autoincrement(),
+    name: text("name").notNull(),
+    parent: bigint("parent", { mode: "number", unsigned: true }),
+  },
+  (t) => {
+    return [index("parent_index").on(t.parent)];
+  }
+);

@@ -1,8 +1,7 @@
 import { FileText, ImageIcon, Music, Video } from "lucide-react"
-import type { FileProp } from "~/app/mock-data"
 
-export const getFileIcon = (file: FileProp) => {
-	switch (file.fileType) {
+export const getFileIcon = (type: string) => {
+	switch (type) {
 		case "jpg":
 		case "png":
 		case "gif":

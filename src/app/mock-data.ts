@@ -6,6 +6,21 @@ export type AppbarUpdateProps = {
 	sidebarCollapsed: boolean;
 }
 
+export type FileDProp = {
+	id: number;
+	name: string;
+	url: string;
+	size: string;
+	parent: number;
+	fileType: string;
+}
+
+export type FolderDProp = {
+	id: number;
+	name: string;
+	parent: number | null;
+}
+
 export type FileProp = {
 	id: string;
 	name: string;
