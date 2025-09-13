@@ -12,26 +12,26 @@ import Breadcrumbs from "~/components/layout/breadcrumbs";
 // import UploadFile from "~/components/common/upload-file";
 
 import { type AppbarUpdateProps } from "./mock-data";
-import type { files, folders } from "~/server/db/schema";
+import type { files_table, folders_table } from "~/server/db/schema";
 
 
 
 export default function DriveContents(props: {
-  files: typeof files.$inferSelect[],
-  folders: typeof folders.$inferSelect[],
-  parents: typeof folders.$inferSelect[],
+  files: typeof files_table.$inferSelect[],
+  folders: typeof folders_table.$inferSelect[],
+  parents: typeof folders_table.$inferSelect[],
 }) {
   const getRootFolder = props.folders.find(folder => folder.parent === null) ?? {};
-  const [currentPath, setCurrentPath] = useState<typeof folders.$inferSelect[]>([getRootFolder as typeof folders.$inferSelect]);
+  const [currentPath, setCurrentPath] = useState<typeof folders_table.$inferSelect[]>([getRootFolder as typeof folders_table.$inferSelect]);
 
   const [viewMode, setViewMode] = useState<AppbarUpdateProps['viewMode']>("grid")
   const [sidebarCollapsed, setSidebarCollapsed] = useState<AppbarUpdateProps['sidebarCollapsed']>(false)
 
   const allItems = [...props.files, ...props.folders];
 
-  const handleFolderClick = (folder: typeof folders.$inferSelect) => setCurrentPath([...currentPath, folder]);
+  const handleFolderClick = (folder: typeof folders_table.$inferSelect) => setCurrentPath([...currentPath, folder]);
 
-  const handleFileClick = (file: typeof files.$inferSelect) => window.open(file.url, "_blank");
+  const handleFileClick = (file: typeof files_table.$inferSelect) => window.open(file.url, "_blank");
 
   return (
     <TooltipProvider>

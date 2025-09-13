@@ -6,13 +6,13 @@ import { Card } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 
-import type { files, folders } from "~/server/db/schema";
+import type { files_table, folders_table } from "~/server/db/schema";
 
 type ListViewProps = {
-	filteredFiles: typeof files.$inferSelect[];
-	filteredFolders: typeof folders.$inferSelect[];
-	handleFolderClick: (folder: typeof folders.$inferSelect) => void;
-	handleFileClick: (file: typeof files.$inferSelect) => void;
+	filteredFiles: typeof files_table.$inferSelect[];
+	filteredFolders: typeof folders_table.$inferSelect[];
+	handleFolderClick: (folder: typeof folders_table.$inferSelect) => void;
+	handleFileClick: (file: typeof files_table.$inferSelect) => void;
 }
 
 export default function ListView({

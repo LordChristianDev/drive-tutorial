@@ -4,11 +4,11 @@ import { db } from "~/server/db";
 
 import DriveContents from "~/app/drive-contents";
 
-import { files as filesSchema, folders as foldersSchema } from "~/server/db/schema";
-import type { folders } from "~/server/db/schema";
+import { files_table as filesSchema, folders_table as foldersSchema } from "~/server/db/schema";
+import type { folders_table } from "~/server/db/schema";
 
 async function getAllParents(folderId: number) {
-	let parents: typeof folders.$inferSelect[] = [];
+	let parents: typeof folders_table.$inferSelect[] = [];
 	let currentId: number | null = folderId;
 
 	while (currentId != null) {

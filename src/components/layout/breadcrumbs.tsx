@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import type { folders } from "~/server/db/schema";
+import type { folders_table } from "~/server/db/schema";
 
-export default function Breadcrumbs({ breadcrumbs }: { breadcrumbs: typeof folders.$inferSelect[] }) {
+export default function Breadcrumbs({ breadcrumbs }: { breadcrumbs: typeof folders_table.$inferSelect[] }) {
 
 	const renderBreadcrumbs = breadcrumbs.map((folder, index) => {
 		const { id, name } = folder;
