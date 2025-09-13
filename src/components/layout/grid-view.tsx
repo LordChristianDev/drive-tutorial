@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Download, Folder, MoreVertical, Star, Trash2 } from "lucide-react";
 
 import { getFileIcon } from "~/lib/helpers";
@@ -11,21 +12,21 @@ import type { files, folders } from "~/server/db/schema";
 type GridViewProps = {
 	filteredFiles: typeof files.$inferSelect[];
 	filteredFolders: typeof folders.$inferSelect[];
-	handleFolderClick: (folder: typeof folders.$inferSelect) => void;
 	handleFileClick: (file: typeof files.$inferSelect) => void;
 }
 
 export default function GridView({
-	filteredFiles, filteredFolders,
-	handleFolderClick, handleFileClick
+	filteredFiles,
+	filteredFolders,
+	handleFileClick,
 }: GridViewProps) {
 
 	const renderFiles = filteredFiles.map((file, index) => {
-		const { id, name, size } = file;
+		const { name, size } = file;
 
 		return (
 			<Card
-				key={id + index}
+				key={name + index}
 				className="p-4 hover:shadow-md transition-shadow cursor-pointer group"
 				onClick={() => handleFileClick(file)}
 			>
@@ -74,21 +75,26 @@ export default function GridView({
 	});
 
 	const renderFolders = filteredFolders.map((folder, index) => {
-		const { id, name } = folder;
+		const { name } = folder;
 
 		return (
-			<Card
-				key={id + index}
-				className="p-4 hover:shadow-md transition-shadow cursor-pointer group"
-				onClick={() => handleFolderClick(folder)}
+
+			<Link
+				href={`/f/${folder.id}`}
+				className="flex-1"
 			>
-				<div className="flex flex-col items-center justify-center text-center gap-2 h-full">
-					<Folder className="w-6 h-6 text-grey-500" />
-					<h3 className="text-sm font-medium truncate w-full" title={name}>
-						{name}
-					</h3>
-				</div>
-			</Card>
+				<Card
+					key={name + index}
+					className="p-4 hover:shadow-md transition-shadow cursor-pointer group h-full"
+				>
+					<div className="flex flex-col items-center justify-center text-center gap-2 h-full">
+						<Folder className="w-6 h-6 text-grey-500" />
+						<h3 className="text-sm font-medium truncate w-full" title={name}>
+							{name}
+						</h3>
+					</div>
+				</Card>
+			</Link>
 		);
 	})
 

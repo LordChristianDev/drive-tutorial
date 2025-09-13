@@ -2,7 +2,6 @@ import { Clock, Home, Star, Trash2, type LucideIcon } from "lucide-react";
 
 export type AppbarUpdateProps = {
 	viewMode?: "grid" | "list";
-	searchQuery?: string;
 	sidebarCollapsed: boolean;
 }
 

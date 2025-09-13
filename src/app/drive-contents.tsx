@@ -1,64 +1,37 @@
 "use client"
 
 import { useState } from "react";
-import { Folder, ChevronRight } from "lucide-react";
+import { Folder } from "lucide-react";
 
 import { TooltipProvider } from "~/components/ui/tooltip";
 import AppBar from "~/components/layout/appbar";
 import GridView from "~/components/layout/grid-view";
 import ListView from "~/components/layout/list-view";
 import Navigations from "~/components/layout/navigations";
+import Breadcrumbs from "~/components/layout/breadcrumbs";
 // import UploadFile from "~/components/common/upload-file";
 
 import { type AppbarUpdateProps } from "./mock-data";
 import type { files, folders } from "~/server/db/schema";
 
+
+
 export default function DriveContents(props: {
   files: typeof files.$inferSelect[],
   folders: typeof folders.$inferSelect[],
+  parents: typeof folders.$inferSelect[],
 }) {
   const getRootFolder = props.folders.find(folder => folder.parent === null) ?? {};
-
-  const [currentFolder, setCurrentFolder] = useState<number>(1)
   const [currentPath, setCurrentPath] = useState<typeof folders.$inferSelect[]>([getRootFolder as typeof folders.$inferSelect]);
 
   const [viewMode, setViewMode] = useState<AppbarUpdateProps['viewMode']>("grid")
-  const [searchQuery, setSearchQuery] = useState<AppbarUpdateProps['searchQuery']>("")
   const [sidebarCollapsed, setSidebarCollapsed] = useState<AppbarUpdateProps['sidebarCollapsed']>(false)
 
-  const filteredFiles = props.files.filter((file) => {
-    if (searchQuery) {
-      return file.name.toLowerCase().includes(searchQuery.toLowerCase());
-    }
+  const allItems = [...props.files, ...props.folders];
 
-    return currentFolder === file.parent;
-  });
-
-  const filteredFolders = props.folders.filter((folder) => {
-    if (searchQuery) {
-      return folder.name.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-
-    return currentFolder === folder.parent;
-  });
-
-  const allItems = [...filteredFiles, ...filteredFolders];
-
-  const handleFolderClick = (folder: typeof folders.$inferSelect) => {
-    setCurrentFolder(folder.id);
-    setCurrentPath([...currentPath, folder]);
-  };
+  const handleFolderClick = (folder: typeof folders.$inferSelect) => setCurrentPath([...currentPath, folder]);
 
   const handleFileClick = (file: typeof files.$inferSelect) => window.open(file.url, "_blank");
-
-  const handleBreadCrumbClick = (folder: typeof folders.$inferSelect) => {
-    const index = currentPath.findIndex((item) => item.id === folder.id);
-
-    if (folder) {
-      setCurrentFolder(folder.id);
-      setCurrentPath(currentPath.slice(0, index + 1));
-    }
-  };
 
   return (
     <TooltipProvider>
@@ -66,7 +39,6 @@ export default function DriveContents(props: {
         <AppBar
           onChange={(updates) => {
             setViewMode(updates.viewMode);
-            setSearchQuery(updates.searchQuery);
             setSidebarCollapsed(updates.sidebarCollapsed);
           }}
         />
@@ -93,33 +65,20 @@ export default function DriveContents(props: {
           </aside>
 
           <main className="flex-1 p-6 overflow-auto">
-            <nav className="flex items-center space-x-2 mb-6">
-              {currentPath.map((path, index) => (
-                <div key={index} className="flex items-center">
-                  <button
-                    onClick={() => handleBreadCrumbClick(path)}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {path.name}
-                  </button>
-                  {index < currentPath.length - 1 && <ChevronRight className="w-4 h-4 text-muted-foreground mx-2" />}
-                </div>
-              ))}
-            </nav>
+            <Breadcrumbs breadcrumbs={props.parents} />
 
             {/* <UploadFile /> */}
 
             {viewMode === "grid" ? (
               <GridView
-                filteredFiles={filteredFiles}
-                filteredFolders={filteredFolders}
-                handleFolderClick={handleFolderClick}
+                filteredFiles={props.files}
+                filteredFolders={props.folders}
                 handleFileClick={handleFileClick}
               />
             ) : (
               <ListView
-                filteredFiles={filteredFiles}
-                filteredFolders={filteredFolders}
+                filteredFiles={props.files}
+                filteredFolders={props.folders}
                 handleFolderClick={handleFolderClick}
                 handleFileClick={handleFileClick}
               />
