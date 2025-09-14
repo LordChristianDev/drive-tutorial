@@ -80,13 +80,11 @@ export default function GridView({
 		return (
 
 			<Link
+				key={name + index}
 				href={`/f/${folder.id}`}
 				className="flex-1"
 			>
-				<Card
-					key={name + index}
-					className="p-4 hover:shadow-md transition-shadow cursor-pointer group h-full"
-				>
+				<Card className="p-4 hover:shadow-md transition-shadow cursor-pointer group h-full">
 					<div className="flex flex-col items-center justify-center text-center gap-2 h-full">
 						<Folder className="w-6 h-6 text-grey-500" />
 						<h3 className="text-sm font-medium truncate w-full" title={name}>
