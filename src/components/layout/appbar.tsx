@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import HoverIcon from "~/components/common/hover-icon";
 
 import type { AppbarUpdateProps } from "~/app/mock-data";
+import UploadFile from "../common/upload-file";
 
 type AppBarProps = {
 	onChange: (updates: AppbarUpdateProps) => void;
@@ -29,11 +30,6 @@ export default function AppBar({ onChange }: AppBarProps) {
 				</div>
 
 				<div className="flex items-center space-x-2">
-					<Button variant="outline" size="sm">
-						<Upload className="w-4 h-4 mr-2" />
-						Upload
-					</Button>
-
 					<Button variant="outline" size="sm" onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}>
 						{viewMode === "grid" ? <List className="w-4 h-4" /> : <Grid3X3 className="w-4 h-4" />}
 					</Button>

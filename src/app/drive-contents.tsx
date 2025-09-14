@@ -7,14 +7,12 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 import AppBar from "~/components/layout/appbar";
 import GridView from "~/components/layout/grid-view";
 import ListView from "~/components/layout/list-view";
+import UploadFile from "~/components/common/upload-file";
 import Navigations from "~/components/layout/navigations";
 import Breadcrumbs from "~/components/layout/breadcrumbs";
-// import UploadFile from "~/components/common/upload-file";
 
 import { type AppbarUpdateProps } from "./mock-data";
 import type { files_table, folders_table } from "~/server/db/schema";
-
-
 
 export default function DriveContents(props: {
   files: typeof files_table.$inferSelect[],
@@ -67,7 +65,7 @@ export default function DriveContents(props: {
           <main className="flex-1 p-6 overflow-auto">
             <Breadcrumbs breadcrumbs={props.parents} />
 
-            {/* <UploadFile /> */}
+            <UploadFile />
 
             {viewMode === "grid" ? (
               <GridView
