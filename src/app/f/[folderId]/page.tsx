@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import DriveContents from "~/app/drive-contents";
 import { QUERIES } from "~/server/db/queries";
@@ -32,11 +33,34 @@ export default async function GoogleDriveClone({
 }
 
 async function FolderContents({ folderId }: { folderId: number }) {
-	const [folders, files, parents] = await Promise.all([
-		QUERIES.getFolders(folderId),
-		QUERIES.getFiles(folderId),
-		QUERIES.getAllParentsForFolder(folderId),
-	]);
+	try {
+		// Validate folderId
+		if (!folderId || folderId < 0) {
+			notFound();
+		}
 
-	return <DriveContents files={files} folders={folders} parents={parents} />;
+		const [folders, files, parents] = await Promise.all([
+			QUERIES.getFolders(folderId),
+			QUERIES.getFiles(folderId),
+			QUERIES.getAllParentsForFolder(folderId),
+		]);
+
+		// Handle case where folder doesn't exist
+		if (!folders && !files && !parents) {
+			notFound();
+		}
+
+		return <DriveContents files={files} folders={folders} parents={parents} />;
+	} catch (error) {
+		console.error('Error loading folder contents:', error);
+
+		// For server components, you can either:
+		// 1. Use notFound() for 404 errors
+		if (error instanceof Error && error.message.includes('not found')) {
+			notFound();
+		}
+
+		// 2. Or throw the error to be caught by error boundary
+		throw new Error('Failed to load folder contents');
+	}
 }
