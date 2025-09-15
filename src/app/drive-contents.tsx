@@ -34,14 +34,14 @@ export default function DriveContents(props: {
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-background dark flex flex-col">
-        <AppBar
+        {/* <AppBar
           onChange={(updates) => {
             setViewMode(updates.viewMode);
             setSidebarCollapsed(updates.sidebarCollapsed);
           }}
-        />
+        /> */}
 
-        <div className="flex flex-1 w-full">
+        {/* <div className="flex flex-1 w-full">
           <aside
             className={`${sidebarCollapsed ? "w-16" : "w-64"} flex flex-col h-[calc(100vh-4.375rem)] border-r border-border bg-sidebar transition-all duration-300 overflow-auto`}
           >
@@ -90,7 +90,7 @@ export default function DriveContents(props: {
               </div>
             )}
           </main>
-        </div>
+        </div> */}
       </div>
     </TooltipProvider >
   )

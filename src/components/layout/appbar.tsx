@@ -6,7 +6,6 @@ import { Button } from "~/components/ui/button";
 import HoverIcon from "~/components/common/hover-icon";
 
 import type { AppbarUpdateProps } from "~/app/mock-data";
-import UploadFile from "../common/upload-file";
 
 type AppBarProps = {
 	onChange: (updates: AppbarUpdateProps) => void;
