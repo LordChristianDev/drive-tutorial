@@ -50,6 +50,7 @@ export const MUTATIONS = {
 			url: string;
 			size: number;
 			fileType: string;
+			parent: number;
 		},
 		userId: string;
 	}) {
