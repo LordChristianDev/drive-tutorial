@@ -1,4 +1,4 @@
-
+import { Suspense } from "react";
 import DriveContents from "~/app/drive-contents";
 import { QUERIES } from "~/server/db/queries";
 
@@ -6,16 +6,33 @@ export default async function GoogleDriveClone(props: {
 	params: Promise<{ folderId: string }>;
 }) {
 	const params = await props.params;
+	const parsedFolderId = Number(params.folderId);
 
-	const parsedFolderId = parseInt(params.folderId);
 	if (isNaN(parsedFolderId)) {
-		return <div>Invalid folder ID</div>;
+		return (
+			<div className="flex items-center justify-center min-h-screen bg-background dark">
+				<h3 className="text-xl text-muted-foreground">Invalid Folder</h3>
+			</div>
+		);
 	}
 
+	return (
+		<Suspense
+			fallback={
+				<div className="flex items-center justify-center min-h-screen bg-background dark">
+					<h3 className="text-xl text-muted-foreground">Loading...</h3>
+				</div>
+			}>
+			<FolderContents folderId={parsedFolderId} />
+		</Suspense>
+	);
+}
+
+async function FolderContents({ folderId }: { folderId: number }) {
 	const [folders, files, parents] = await Promise.all([
-		QUERIES.getFolders(parsedFolderId),
-		QUERIES.getFiles(parsedFolderId),
-		QUERIES.getAllParentsForFolder(parsedFolderId),
+		QUERIES.getFolders(folderId),
+		QUERIES.getFiles(folderId),
+		QUERIES.getAllParentsForFolder(folderId),
 	]);
 
 	return (
