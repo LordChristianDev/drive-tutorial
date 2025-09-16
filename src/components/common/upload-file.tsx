@@ -13,7 +13,7 @@ export default function UploadFile({ folderId }: { folderId: number }) {
 			<h3 className="text-lg font-medium mb-2">Drop files here to upload</h3>
 			<p className="text-muted-foreground mb-4">Or click to select files</p> */}
 			<UploadButton
-				endpoint="imageUploader"
+				endpoint="driveUploader"
 				onClientUploadComplete={() => {
 					navigate.refresh();
 				}}
