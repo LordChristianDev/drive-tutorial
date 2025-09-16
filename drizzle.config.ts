@@ -3,7 +3,7 @@ import { type Config } from "drizzle-kit";
 export default {
   dialect: 'singlestore',
   schema: './src/server/db/schema.ts',
-  tablesFilter: ["drive-tutorial_*"],
+  tablesFilter: ["drive_tutorial_*"],
   dbCredentials: {
     host: process.env.SINGLESTORE_HOST!,
     user: process.env.SINGLESTORE_USER!,

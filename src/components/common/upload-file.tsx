@@ -1,12 +1,10 @@
 
-import { Upload } from "lucide-react";
-
 import { useRouter } from "next/navigation";
 
 import { Card } from "~/components/ui/card";
 import { UploadButton } from "~/components/uploadthing";
 
-export default function UploadFile() {
+export default function UploadFile({ folderId }: { folderId: number }) {
 	const navigate = useRouter();
 
 	return (
@@ -18,6 +16,9 @@ export default function UploadFile() {
 				endpoint="imageUploader"
 				onClientUploadComplete={() => {
 					navigate.refresh();
+				}}
+				input={{
+					folderId: folderId
 				}}
 			/>
 		</Card>

@@ -18,6 +18,7 @@ export default function DriveContents(props: {
   files: typeof files_table.$inferSelect[],
   folders: typeof folders_table.$inferSelect[],
   parents: typeof folders_table.$inferSelect[],
+  currentFolderId: number,
 }) {
   const getRootFolder = props.folders.find(folder => folder.parent === null) ?? {};
   const [currentPath, setCurrentPath] = useState<typeof folders_table.$inferSelect[]>([getRootFolder as typeof folders_table.$inferSelect]);
@@ -65,7 +66,7 @@ export default function DriveContents(props: {
           <main className="flex-1 p-6 overflow-auto">
             <Breadcrumbs breadcrumbs={props.parents} />
 
-            <UploadFile />
+            <UploadFile folderId={props.currentFolderId} />
 
             {viewMode === "grid" ? (
               <GridView

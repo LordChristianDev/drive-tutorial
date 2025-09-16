@@ -40,6 +40,7 @@ async function FolderContents({ folderId }: { folderId: number }) {
 			files={files}
 			folders={folders}
 			parents={parents}
+			currentFolderId={folderId}
 		/>
 	);
 }

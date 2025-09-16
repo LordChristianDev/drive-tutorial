@@ -44,7 +44,6 @@ export type SidebarProp = {
 }
 
 export const mockFolders: FolderProp[] = [
-	{ id: "root", name: "My Drive", type: "folder", parent: null },
 	{ id: "1", name: "Documents", type: "folder", parent: "root" },
 	{ id: "2", name: "Photos", type: "folder", parent: "root" },
 	{ id: "3", name: "Videos", type: "folder", parent: "root" },
